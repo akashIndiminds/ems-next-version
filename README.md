@@ -34,3 +34,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+COLOR TO USE:
+Background: bg-slate-800 (dark background)
+Active items: from-purple-500/20 to-blue-500/20 (gradient)
+Active text/border: border-purple-500, text-purple-400
+Button gradient: from-purple-500 to-blue-600
