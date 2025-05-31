@@ -1,21 +1,25 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { employeeService } from '@/Services/employeeService';
 import { employeeAttendanceService } from '@/Services/employeeAttendanceService';
 import { authService } from '@/Services/authService';
 
-// Component imports
-import WelcomeCard from './components/WelcomeCard';
-import AttendanceStats from './components/AttendanceStats';
-import AttendanceHistory from './components/AttendanceHistory';
+// Import dashboard components
+import WelcomeSection from './components/WelcomeSection';
+import StatsOverview from './components/StatsOverview';
+import AttendanceStatus from './components/AttendanceStatus';
+import AttendanceChart from './components/AttendanceChart';
+import CalendarView from './components/CalendarView';
+import AttendanceTable from './components/AttendanceTable';
 import QuickActions from './components/QuickActions';
-import StatsSummary from './components/StatsSummary';
+import NotificationsSection from './components/NotificationsSection';
 
 interface EmployeeDetails {
   employee_code: string;
   employee_full_name: string;
+  designation?: string;
+  department?: string;
   message?: string;
 }
 
@@ -24,6 +28,7 @@ interface AttendanceDetails {
   checkOutTime: string | null;
   status: string | null;
   remarks: string | null;
+  workingHours?: string | null;
 }
 
 const Dashboard: React.FC = () => {
@@ -34,23 +39,10 @@ const Dashboard: React.FC = () => {
     checkOutTime: null,
     status: null,
     remarks: null,
+    workingHours: null,
   });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  // Stats for visualization (would come from API in real implementation)
-  const [attendanceStats, setAttendanceStats] = useState({
-    present: 18,
-    absent: 2,
-    leave: 1,
-    halfDay: 2,
-    overtime: 14.5,
-    workHours: 152,
-    punchInRate: 92, // percentage
-    onTimeRate: 88, // percentage
-  });
-
+  
   useEffect(() => {
     const initializeDashboard = async () => {
       const empCode = authService.getEmployeeCode();
@@ -61,10 +53,6 @@ const Dashboard: React.FC = () => {
           fetchEmployeeDetails(empCode),
           fetchAttendanceDetails(empCode)
         ]);
-      } else {
-        console.warn('Employee code not found. User may need to login.');
-        // Optionally redirect to login
-        // router.push('/login');
       }
       setLoading(false);
     };
@@ -75,7 +63,11 @@ const Dashboard: React.FC = () => {
   const fetchEmployeeDetails = async (employeeCode: string): Promise<void> => {
     try {
       const data = await employeeService.getEmployeeDetails(employeeCode);
-      setEmployeeDetails(data);
+      setEmployeeDetails({
+        ...data,
+        designation: 'Developer', // Placeholder, replace with real data
+        department: 'IT Department' // Placeholder, replace with real data
+      });
     } catch (error) {
       console.error('Error fetching employee details:', error);
     }
@@ -84,64 +76,71 @@ const Dashboard: React.FC = () => {
   const fetchAttendanceDetails = async (employeeCode: string): Promise<void> => {
     try {
       const data = await employeeAttendanceService.getAttendanceStatus(employeeCode);
-      setAttendanceDetails(data);
+      setAttendanceDetails({
+        ...data,
+        workingHours: calculateWorkingHours(data.checkInTime, data.checkOutTime)
+      });
     } catch (error) {
       console.error('Error fetching attendance details:', error);
-      setAttendanceDetails({
-        checkInTime: 'Error',
-        checkOutTime: 'Error',
-        status: 'Error',
-        remarks: 'Failed to fetch attendance details'
-      });
     }
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+  const calculateWorkingHours = (checkIn: string | null, checkOut: string | null): string => {
+    if (!checkIn) return '0h 0m';
+    
+    const checkInTime = new Date(`2023-01-01 ${checkIn}`);
+    const checkOutTime = checkOut 
+      ? new Date(`2023-01-01 ${checkOut}`) 
+      : new Date();
+    
+    const diffMs = checkOutTime.getTime() - checkInTime.getTime();
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    
+    return `${hours}h ${minutes}m`;
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="flex flex-col items-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-indigo-800 font-medium">Loading your dashboard...</p>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Top Navigation would go here */}
-      
-      <div className="flex">
-        {/* Sidebar would go here */}
-        
-        <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'} pt-7`}>
-          <div className="px-6 w-full mx-auto">
-            {/* Welcome Card */}
-            <WelcomeCard 
-              employeeName={employeeDetails?.employee_full_name || 'Employee'} 
-              employeeCode={employeeCode || ''}
-            />
-            
-            {/* Stats Summary Row */}
-            <StatsSummary stats={attendanceStats} />
-            
-            {/* Today's Attendance Status */}
-            <AttendanceStats 
+    <div className="w-full min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
+      <main className="flex-1 px-5 pt-5 w-full ">
+        {/* Welcome Section */}
+        <WelcomeSection 
+          employeeDetails={employeeDetails} 
+          employeeCode={employeeCode}
+          lastCheckIn={attendanceDetails.checkInTime}
+        />
+
+        {/* Attendance Status & Chart */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="lg:col-span-2">
+            <AttendanceStatus 
               attendanceDetails={attendanceDetails} 
             />
-            
-            {/* Quick Actions */}
-            <QuickActions />
-            
-            {/* Attendance History */}
-            <AttendanceHistory employeeCode={employeeCode || ''} />
+            {/* <AttendanceChart /> */}
           </div>
-        </main>
-      </div>
+          {/* <CalendarView /> */}
+        </div>
+
+         {/* Stats Overview */}
+        <StatsOverview />
+
+        {/* Attendance Table */}
+        {/* <AttendanceTable /> */}
+
+        {/* Quick Actions */}
+        <QuickActions />
+
+        {/* Notifications */}
+        {/* <NotificationsSection /> */}
+      </main>
     </div>
   );
 };
