@@ -60,7 +60,7 @@ export default function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
       id: 'attendance',
       label: 'Attendance',
       icon: <Clock className="w-5 h-5" />,
-      href: '/attendance'
+      href: '/dashboard/attendance'
     },
     {
       id: 'reports',

@@ -74,7 +74,7 @@ class AuthService {
 // Login Service (unchanged)
 class LoginService {
   private encryptionService = new AesEncryptionService();
-  private baseUrl = 'http://localhost:3000/api'; // Update with your API URL
+  private baseUrl = process.env.NEXT_PUBLIC_BASE_API; // Update with your API URL
 
   async validateLogin(data: { email: string; password: string }): Promise<any> {
     const encryptedEmail = this.encryptionService.encrypt(data.email);
@@ -212,7 +212,7 @@ export default function LoginPage() {
           showAlert('Login successful! Redirecting...', 'success');
           
           setTimeout(() => {
-            router.push('/attendance');
+            router.push('/dashboard');
           }, 1500);
           
         } catch (error) {

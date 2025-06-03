@@ -7,7 +7,7 @@ class AesEncryptionService {
 
   constructor() {
     this.secretKey = process.env.NEXT_PUBLIC_AES_SECRET_KEY || 'mysecretkey12345'; // fallback
-    this.iv = process.env.NEXT_PUBLIC_AES_IV || '1234567890abcdef'; // fallback
+    this.iv = process.env.NEXT_PUBLIC_AES_IV || '1234567890abcdef';
 
     if (this.secretKey.length !== 16 || this.iv.length !== 16) {
       throw new Error('AES key and IV must be 16 characters long.');
