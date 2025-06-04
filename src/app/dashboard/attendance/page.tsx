@@ -114,7 +114,7 @@ const AttendancePage = () => {
 
 
       {/* Main Content */}
-      <div className="p-4 md:p-6 max-w-7xl mx-auto">
+      <div className="p-4 md:p-6 w-full mx-auto">
         {/* Date and Status Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Current Date Card */}

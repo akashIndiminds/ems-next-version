@@ -18,7 +18,8 @@ import {
   Calendar,
   User,
   Bell,
-  X
+  X,
+  CalendarX2
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -66,27 +67,14 @@ export default function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
       id: 'reports',
       label: 'Reports',
       icon: <BarChart3 className="w-5 h-5" />,
-      children: [
-        {
-          id: 'monthly-report',
-          label: 'Monthly Reports',
-          icon: <Calendar className="w-4 h-4" />,
-          href: '/reports/monthly'
-        },
-        {
-          id: 'team-report',
-          label: 'Team Reports',
-          icon: <Users className="w-4 h-4" />,
-          href: '/reports/team'
-        }
-      ]
+      href: '/dashboard/reports'
     },
     {
       id: 'admin',
       label: 'Admin Panel',
       icon: <Shield className="w-5 h-5" />,
       href: '/admin',
-      adminOnly: true
+      adminOnly: false
     },
     {
       id: 'settings',
