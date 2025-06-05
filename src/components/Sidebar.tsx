@@ -76,25 +76,31 @@ export default function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
       href: '/dashboard/admin',
       adminOnly: false
     },
-    {
+     {
       id: 'settings',
       label: 'Settings',
       icon: <Settings className="w-5 h-5" />,
-      children: [
-        {
-          id: 'profile',
-          label: 'Profile',
-          icon: <User className="w-4 h-4" />,
-          href: '/dashboard/settings/profile'
-        },
-        {
-          id: 'notifications',
-          label: 'Notifications',
-          icon: <Bell className="w-4 h-4" />,
-          href: '/dashboard/settings/notifications'
-        }
-      ]
-    }
+      href: '/dashboard/setting'
+     },
+    // {
+    //   id: 'settings',
+    //   label: 'Settings',
+    //   icon: <Settings className="w-5 h-5" />,
+    //   children: [
+    //     {
+    //       id: 'profile',
+    //       label: 'Profile',
+    //       icon: <User className="w-4 h-4" />,
+    //       href: '/dashboard/settings/profile'
+    //     },
+    //     {
+    //       id: 'notifications',
+    //       label: 'Notifications',
+    //       icon: <Bell className="w-4 h-4" />,
+    //       href: '/dashboard/settings/notifications'
+    //     }
+    //   ]
+    // }
   ];
 
   const toggleExpanded = (itemId: string) => {

@@ -327,7 +327,7 @@ export default function Topbar({ onToggleSidebar, isMobile }: TopbarProps) {
                 </p>
               </div>
               <div className="py-2">
-                <button
+                {/* <button
                   onClick={() => {
                     setShowProfile(false);
                     router.push('/profile');
@@ -336,11 +336,11 @@ export default function Topbar({ onToggleSidebar, isMobile }: TopbarProps) {
                 >
                   <User className="h-4 w-4 mr-3" />
                   Profile
-                </button>
+                </button> */}
                 <button
                   onClick={() => {
                     setShowProfile(false);
-                    router.push('/settings');
+                    router.push('/dashboard/setting');
                   }}
                   className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
