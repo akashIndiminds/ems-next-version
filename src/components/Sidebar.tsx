@@ -73,7 +73,7 @@ export default function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
       id: 'admin',
       label: 'Admin Panel',
       icon: <Shield className="w-5 h-5" />,
-      href: '/admin',
+      href: '/dashboard/admin',
       adminOnly: false
     },
     {
@@ -85,13 +85,13 @@ export default function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
           id: 'profile',
           label: 'Profile',
           icon: <User className="w-4 h-4" />,
-          href: '/settings/profile'
+          href: '/dashboard/settings/profile'
         },
         {
           id: 'notifications',
           label: 'Notifications',
           icon: <Bell className="w-4 h-4" />,
-          href: '/settings/notifications'
+          href: '/dashboard/settings/notifications'
         }
       ]
     }

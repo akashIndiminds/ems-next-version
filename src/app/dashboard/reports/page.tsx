@@ -73,7 +73,7 @@ const Reports = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4 lg:p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full mx-auto">
         {/* Header Section */}
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
