@@ -167,17 +167,10 @@ const AdminPage: React.FC = () => {
         />
       );
     case 'announcements':
-      return (
-        <Announcements
-          employees={employees}
-          onSubmitAnnouncement={handleSubmitAnnouncement}
-        />
-      );
+  return <Announcements />;
     case 'register':
       return (
-        <RegisterEmployee
-          onRegisterEmployee={handleRegisterEmployee}
-        />
+        <RegisterEmployee/>
       );
     case 'attendance':
       return (
@@ -188,12 +181,7 @@ const AdminPage: React.FC = () => {
       );
     case 'leave':
       return (
-        <LeaveManagement
-          employees={employees}
-          leaveRequests={leaveRequests}
-          onSubmitLeave={handleSubmitLeave}
-          onLeaveAction={handleLeaveAction}
-        />
+        <LeaveManagement/>
       );
     case 'reports':
       return <Reports totalEmployees={0} averageAttendance={0} onGenerateReport={function (reportType: string, filters?: any): void {

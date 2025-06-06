@@ -1,5 +1,28 @@
 // Employee Management System Types
 
+// Enums
+export enum AttendanceStatus {
+  PRESENT = 1,
+  ABSENT = 2,
+  HALF_DAY = 3,
+  LEAVE = 4,
+  WFH = 5
+}
+
+export enum LeaveType {
+  SICK = 'sick',
+  PERSONAL = 'personal',
+  VACATION = 'vacation',
+  EMERGENCY = 'emergency'
+}
+
+export enum LeaveStatus {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected'
+}
+
+// Interfaces
 export interface Employee {
   id: string;
   firstName: string;
@@ -27,14 +50,6 @@ export interface AttendanceRecord {
   remarks?: string;
 }
 
-export enum AttendanceStatus {
-  PRESENT = 1,
-  ABSENT = 2,
-  HALF_DAY = 3,
-  LEAVE = 4,
-  WFH = 5
-}
-
 export interface LeaveRequest {
   id: string;
   employeeId: string;
@@ -45,19 +60,6 @@ export interface LeaveRequest {
   reason: string;
   status: LeaveStatus;
   createdAt: string;
-}
-
-export enum LeaveType {
-  SICK = 'sick',
-  PERSONAL = 'personal',
-  VACATION = 'vacation',
-  EMERGENCY = 'emergency'
-}
-
-export enum LeaveStatus {
-  PENDING = 'pending',
-  APPROVED = 'approved',
-  REJECTED = 'rejected'
 }
 
 export interface DashboardStats {
